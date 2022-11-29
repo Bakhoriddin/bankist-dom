@@ -41,3 +41,18 @@ header.append(message);
 document.querySelector('.btn--close-cookie').addEventListener('click', function() {
   message.remove();
 });
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function(e) {
+  const s1coords = section1.getBoundingClientRect();
+  // Scrolling old method
+  // window.scrollTo({
+  //   left: s1coords.left + window.pageXOffset, 
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth',
+  // });
+  // Scrolling new method
+  section1.scrollIntoView({behavior: 'smooth'});
+})
