@@ -12,7 +12,9 @@ const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
-
+const header = document.querySelector('.header');
+const message = document.createElement('div');
+const navHeight = nav.getBoundingClientRect().height;
 /////////////////////////////////////////////////////////////////////////////
 
 // Page navigation
@@ -47,6 +49,19 @@ const handleHover = function (e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
+// Sticky navigation
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
 // Modal window
 
 const openModal = function (e) {
@@ -77,17 +92,15 @@ btnScrollTo.addEventListener('click', function (e) {
 });
 
 // Cookies block
-const header = document.querySelector('.header');
-const message = document.createElement('div');
-message.classList.add('cookie--message');
-message.innerHTML =
-  'We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
-header.append(message);
-document
-  .querySelector('.btn--close-cookie')
-  .addEventListener('click', function () {
-    message.remove();
-  });
+// message.classList.add('cookie--message');
+// message.innerHTML =
+//   'We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
+// header.append(message);
+// document
+//   .querySelector('.btn--close-cookie')
+//   .addEventListener('click', function () {
+//     message.remove();
+//   });
 
 // Tabbed component
 
