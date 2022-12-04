@@ -15,6 +15,7 @@ const nav = document.querySelector('.nav');
 const header = document.querySelector('.header');
 const message = document.createElement('div');
 const navHeight = nav.getBoundingClientRect().height;
+const allSections = document.querySelectorAll('.section');
 /////////////////////////////////////////////////////////////////////////////
 
 // Page navigation
@@ -62,6 +63,7 @@ const headerObserver = new IntersectionObserver(stickyNav, {
   rootMargin: `-${navHeight}px`,
 });
 headerObserver.observe(header);
+
 // Modal window
 
 const openModal = function (e) {
@@ -101,6 +103,23 @@ btnScrollTo.addEventListener('click', function (e) {
 //   .addEventListener('click', function () {
 //     message.remove();
 //   });
+
+// Reveal sections
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
 
 // Tabbed component
 
