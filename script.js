@@ -17,6 +17,11 @@ const message = document.createElement('div');
 const navHeight = nav.getBoundingClientRect().height;
 const allSections = document.querySelectorAll('.section');
 const imgTargets = document.querySelectorAll('img[data-src]');
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+let curSlide = 0;
+const maxSlides = slides.length;
 /////////////////////////////////////////////////////////////////////////////
 
 // Page navigation
@@ -158,3 +163,28 @@ tabsContainer.addEventListener('click', function (e) {
     .querySelector(`.operations__content--${cliked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+// Slider
+
+const goToSlide = function (slide = 0) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${(i - slide) * 100}%)`)
+  );
+};
+
+goToSlide();
+
+const nextSlide = function () {
+  if (curSlide === maxSlides - 1) curSlide = 0;
+  else curSlide++;
+  goToSlide(curSlide);
+};
+
+const prevSlide = function () {
+  if (curSlide === 0) curSlide = maxSlides - 1;
+  else curSlide--;
+  goToSlide(curSlide);
+};
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
